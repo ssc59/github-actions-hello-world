@@ -5,20 +5,36 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   greet:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Say Hello
         run: echo "Hello, GitHub Actions!"
 
-      - name: Print Date
+      - name: Print Date and Time
         run: date
 
-      - name: Print Working Directory
-        run: pwd
+      - name: Show System Information
+        run: |
+          echo "OS: $(uname -s)"
+          echo "Architecture: $(uname -m)"
+          echo "Kernel: $(uname -r)"
 
-      - name: List Files
+      - name: Print Environment Variables
+        run: |
+          echo "GitHub Actor: ${{ github.actor }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref }}"
+
+      - name: List Repository Files
         run: ls -la
+
+      - name: Say Goodbye
+        run: echo "Workflow completed successfully!"
